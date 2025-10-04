@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Casamentos - Matheus Carniel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f44336;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    header a {
+      text-decoration: none;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 2px;
+      transition: color 0.3s ease;
+    }
+    header a:hover {
+      color: #ffd700;
+    }
+
+    section {
+      padding: 60px 40px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-size: 70px;
+      font-weight: 900;
+      margin-bottom: 60px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* Bloco individual de cada casamento */
+    .casamento-bloco {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 100px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    /* Inverter ordem automaticamente nos pares */
+    .casamento-bloco:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    /* Estado visível (quando entra na tela) */
+    .casamento-bloco.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .casamento-bloco iframe,
+    .casamento-bloco .casamento-info {
+      opacity: 0;
+      transition: all 0.8s ease;
+    }
+    .casamento-bloco.visible iframe {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .casamento-bloco.visible .casamento-info {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Animação direcional */
+    .casamento-bloco iframe { transform: translateX(-50px); }
+    .casamento-bloco .casamento-info { transform: translateX(50px); }
+    .casamento-bloco:nth-child(even) iframe { transform: translateX(50px); }
+    .casamento-bloco:nth-child(even) .casamento-info { transform: translateX(-50px); }
+
+    .casamento-bloco iframe {
+      flex: 1;
+      min-height: 350px;
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .casamento-info {
+      flex: 1;
+    }
+
+    .casamento-info h2 {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .casamento-info p {
+      font-size: 18px;
+      line-height: 1.6em;
+      color: #f0f0f0;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: white;
+      color: #f44336;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .back-btn:hover {
+      background: #ffd700;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 12px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .casamento-bloco,
+      .casamento-bloco:nth-child(even) {
+        flex-direction: column;
+        text-align: center;
+      }
+      .casamento-bloco iframe {
+        width: 100%;
+        min-height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">MATHEUS CARNIEL</a>
+    <div>CASAMENTOS</div>
+  </header>
+
+  <section>
+    <h1>Casamentos</h1>
+
+    <!-- Casamento 1 -->
+    <div class="casamento-bloco">
+      <iframe src="https://player.vimeo.com/video/799444118?fl" allowfullscreen></iframe>
+      <div class="casamento-info">
+        <h2>Jean { } Sarah</h2>
+        <p>Registro dessa linda união que tivemos o prazer de eternizar em vídeo. Feliz de poder compartilhar esse momento com essas pessoas especiais.</p>
+      </div>
+    </div>
+
+    <!-- Casamento 2 -->
+    <div class="casamento-bloco">
+      <iframe src="https://player.vimeo.com/video/980996041?fl" allowfullscreen></iframe>
+      <div class="casamento-info">
+        <h2>Wellington { } Roberta</h2>
+        <p>Uma celebração íntima com família e amigos em um cenário romântico, onde cada detalhe foi pensado com carinho.</p>
+      </div>
+    </div>
+
+    <!-- Casamento 3 -->
+    <div class="casamento-bloco">
+      <iframe src="https://player.vimeo.com/video/825083997" allowfullscreen></iframe>
+      <div class="casamento-info">
+        <h2>Raquel { } Matheus</h2>
+        <p>Uma festa vibrante, cheia de música, dança e muita alegria, celebrando um amor verdadeiro e contagiante.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="../outros.html" class="back-btn">Voltar</a>
+    </div>
+  </section>
+
+  <footer>© 2025 Matheus Carniel. Todos os direitos reservados.</footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll("section, .casamento-bloco").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

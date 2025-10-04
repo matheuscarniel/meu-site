@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Outros Vídeos - Matheus Carniel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f44336;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    section {
+      padding: 60px 40px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-size: 70px;
+      font-weight: 900;
+      margin-bottom: 40px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* Grade fixa com 2 colunas (para 4 itens: 2 em cima, 2 embaixo) */
+    .clips-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .clip {
+      position: relative;
+      background: transparent;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.28s ease;
+      text-decoration: none;
+      color: white;
+      display: block;
+    }
+
+    .clip:hover { transform: scale(1.03); }
+
+    .clip img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .clip-info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 18px 16px;
+      background: linear-gradient(180deg,
+                  rgba(0,0,0,0) 0%,
+                  rgba(0,0,0,0.40) 45%,
+                  rgba(0,0,0,0.65) 100%);
+      border-radius: 0 0 15px 15px;
+    }
+
+    .clip-info h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: left;
+      color: #fff;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 60px;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: white;
+      color: #f44336;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .back-btn:hover {
+      background: #ffd700;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 12px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 800px) {
+      .clips-grid { grid-template-columns: 1fr; }
+      .clip img { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>MATHEUS CARNIEL</div>
+    <div>OUTROS VÍDEOS</div>
+  </header>
+
+  <section>
+    <h1>OUTROS VÍDEOS</h1>
+
+    <div class="clips-grid">
+      <!-- Casamentos -->
+      <a class="clip" href="outros/casamentos.html">
+        <img src="assets/images/outros/casamentos.jpg" alt="Casamentos">
+        <div class="clip-info">
+          <h3>Casamentos</h3>
+        </div>
+      </a>
+
+      <!-- Eventos -->
+      <a class="clip" href="outros/eventos.html">
+        <img src="assets/images/outros/eventos.jpg" alt="Eventos">
+        <div class="clip-info">
+          <h3>Eventos</h3>
+        </div>
+      </a>
+
+      <!-- Youtube -->
+      <a class="clip" href="outros/youtube.html">
+        <img src="assets/images/outros/youtube.jpg" alt="Youtube">
+        <div class="clip-info">
+          <h3>Youtube</h3>
+        </div>
+      </a>
+
+      <!-- Redes Sociais -->
+      <a class="clip" href="outros/redes.html">
+        <img src="assets/images/outros/redes.jpg" alt="Redes Sociais">
+        <div class="clip-info">
+          <h3>Redes Sociais</h3>
+        </div>
+      </a>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="index.html" class="back-btn">Voltar</a>
+    </div>
+  </section>
+
+  <footer>© 2025 Matheus Carniel. Todos os direitos reservados.</footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll("section").forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>

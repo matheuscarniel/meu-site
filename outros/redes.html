@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redes Sociais - Matheus Carniel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+    :root{ --gap:30; }
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f44336;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    header a {
+      text-decoration: none;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 2px;
+      transition: color 0.3s ease;
+    }
+    header a:hover { color: #ffd700; }
+
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 60px;
+      font-weight: 900;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    /* timeline */
+    .timeline {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin: 8px auto 18px;
+      max-width: 1000px;
+      padding: 0 10px;
+    }
+    .timeline .seg {
+      flex: 1 1 0;
+      height: 6px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .timeline .seg .fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 0%;
+      background: #fff;
+      transition: width 0.12s linear;
+    }
+    .timeline .seg.active {
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.04) inset;
+    }
+
+    /* Container do carrossel */
+    .carousel-container {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      overflow: visible;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      padding: 20px 40px;
+      transition: height 0.36s ease, width 0.36s ease;
+    }
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+      padding: 40px 10px;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Wrapper do vídeo */
+    .video-wrapper {
+      position: relative;
+      flex: 0 0 60%;
+      width: 100%;
+      max-width: 640px;
+      aspect-ratio: 16 / 9;
+      border-radius: 15px;
+      overflow: hidden;
+      background: black;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* vertical: mantém tamanho compacto (≈ antes) */
+    .video-wrapper.vertical {
+      aspect-ratio: 9 / 16;
+      max-width: 420px; /* mantido para ficar compacto e legível */
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: black;
+    }
+    .video-wrapper.vertical video {
+      object-fit: contain;
+      background: black;
+    }
+
+    /* Botões dentro do vídeo */
+    .controls {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      /* afastar os botões das bordas para não serem cortados pelos cantos */
+      padding: 0 0px;
+      pointer-events: none;
+      z-index: 5; /* garante que fiquem acima do vídeo */
+    }
+
+    .btn {
+      background: rgba(0,0,0,0.6);
+      border: none;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      cursor: pointer;
+      color: #fff;
+      font-size: 22px;
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(.2,.9,.3,1), background 0.25s ease, box-shadow 0.25s ease;
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(2px);
+    }
+    /* animação no hover: sobe + aumenta leve */
+    .btn:hover {
+      background: rgba(255,255,255,0.14);
+      transform: translateY(-4px) scale(1.08);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+    }
+    .btn:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+    .btn svg { width: 18px; height: 18px; display: block; }
+
+    .description {
+      flex: 0 0 30%;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.5em;
+      color: #eee;
+      max-width: 320px;
+    }
+    .description h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 12px;
+    }
+
+    /* Botão voltar grande */
+    .back-btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: white;
+      color: #f44336;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .back-btn:hover {
+      background: #ffd700;
+      transform: scale(1.05);
+    }
+
+    /* Responsivo */
+    @media (max-width: 1000px) {
+      .carousel-container { padding: 18px; }
+      .description { display: none; }
+      .timeline { max-width: 720px; }
+    }
+    @media (max-width: 700px) {
+      .slide { flex-direction: column; gap: 18px; padding: 24px; }
+      .video-wrapper { max-width: 90%; aspect-ratio: 16/9; }
+      .video-wrapper.vertical { max-width: 360px; aspect-ratio: 9/16; }
+      .carousel-container { padding: 12px; width: calc(100% - 32px) !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">MATHEUS CARNIEL</a>
+    <div>REDES SOCIAIS</div>
+  </header>
+
+  <section>
+    <h1>Redes Sociais</h1>
+
+    <!-- timeline segmentos -->
+    <div class="timeline" id="timeline"></div>
+
+    <div class="carousel-container" id="carouselContainer">
+      <div class="carousel" id="carousel">
+        <!-- Slide 1 (autoplay muted para funcionar no load) -->
+        <div class="slide active">
+          <div class="video-wrapper">
+            <video autoplay muted playsinline controls preload="metadata">
+              <source src="../assets/videos/redes/rede1.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <!-- SVG seta para esquerda -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <!-- SVG seta para direita -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>BBQ ANNIBAL</h2>
+            <p>Vídeo de lançamento da nova unidade de um food truck em outra cidade. O projeto busca ser informativo e dinâmico, mantendo a identidade visual que desenvolvemos em vídeos anteriores do espaço.</p>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede2.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>CAIO ESCOLARIQUE</h2>
+            <p>Vídeo criado para um estúdio de tatuagem, com uma estética punk rock que acompanha o ritmo do conteúdo. O projeto documenta diversas sessões até a conclusão da tatuagem completa no braço.</p>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede3.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>FUTEBOL</h2>
+            <p>Registro do Campeonato da Série Ouro de Cravinhos, destacando o grande momento da partida: o gol que garantiu a vitória do time.</p>
+          </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede4.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>BBQ ANNIBAL</h2>
+            <p>Vídeo integrante da campanha de lançamento da nova unidade do food truck em Ribeirão Preto.</p>
+          </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede5.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>HIKARI SUSHI</h2>
+            <p>Vídeo de apresentação dos pratos de um novo restaurante de comida japonesa, mostrando todo o processo de preparo e a variedade do cardápio.</p>
+          </div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede6.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>BBQ ANNIBAL</h2>
+            <p>Vídeo curto e dinâmico que mostra o processo de montagem do lanche.</p>
+          </div>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede7.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>BBQ ANNIBAL</h2>
+            <p>Vídeo que transmite uma atmosfera tranquila e suave, destacando o lançamento da nova bebida do estabelecimento, a soda italiana, acompanhada de um lanche, mantendo a harmonia dos alimentos.</p>
+          </div>
+        </div>
+
+        <!-- Slide 8 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede8.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>FUTEBOL</h2>
+            <p>Registro do momento da cobrança de falta que resultou no gol de empate.</p>
+          </div>
+        </div>
+
+        <!-- Slide 9 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede9.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>HIKARI SUSHI</h2>
+            <p>Vídeo integrante da campanha de lançamento do espaço na cidade, mostrando sua beleza e clientes apreciando os alimentos.</p>
+          </div>
+        </div>
+
+        <!-- Slide 10 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede10.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>BBQ ANNIBAL</h2>
+            <p>Série de vídeos em que os funcionários apresentam seus lanches favoritos, enquanto acompanhamos o processo de montagem de cada um.</p>
+          </div>
+        </div>
+
+        <!-- Slide 11 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede11.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>PABST BLUE RIBBON</h2>
+            <p>Vídeo de apresentação da cerveja Pabst, com proposta simples e poucos movimentos de câmera.</p>
+          </div>
+        </div>
+
+        <!-- Slide 12 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede12.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>FUTEBOL</h2>
+            <p>Registro do momento em que o goleiro realiza uma defesa, impedindo o ataque adversário.</p>
+          </div>
+        </div>
+
+        <!-- Slide 13 -->
+        <div class="slide">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata">
+              <source src="../assets/videos/redes/rede13.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo.
+            </video>
+            <div class="controls">
+              <button class="btn" type="button" onclick="prevSlide()" aria-label="Anterior">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15.5 19a1 1 0 0 1-.7-.3l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 1 1 1.4 1.4L10.91 12l5.29 5.29a1 1 0 0 1-.7 1.71z" fill="white"/>
+                </svg>
+              </button>
+              <button class="btn" type="button" onclick="nextSlide()" aria-label="Próximo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8.5 19a1 1 0 0 1-.7-1.71L13.09 12 7.8 6.71a1 1 0 0 1 1.4-1.42l6 6a1 1 0 0 1 0 1.42l-6 6a1 1 0 0 1-.7.29z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <h2>CINE FOTO CLUBE</h2>
+            <p>Registro do evento anual do Cine Foto Clube em celebração ao Dia das Mães, uma ação solidária que acontece todos os anos e na qual participo para colaborar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="../outros.html" class="back-btn">Voltar</a>
+  </section>
+
+  <footer>
+    © 2025 Matheus Carniel. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    const carouselContainer = document.getElementById('carouselContainer');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const timelineEl = document.getElementById('timeline');
+    let index = slides.findIndex(s => s.classList.contains('active'));
+    if (index < 0) index = 0;
+
+    // cria segmentos da timeline
+    const segFills = [];
+    function buildTimeline() {
+      timelineEl.innerHTML = '';
+      segFills.length = 0; // limpa caso já existam
+      slides.forEach((_, i) => {
+        const seg = document.createElement('div');
+        seg.className = 'seg' + (i === index ? ' active' : '');
+        seg.dataset.i = i;
+        const fill = document.createElement('div');
+        fill.className = 'fill';
+        seg.appendChild(fill);
+        seg.addEventListener('click', () => {
+          showSlide(i);
+        });
+        timelineEl.appendChild(seg);
+        segFills.push(fill);
+      });
+    }
+
+    function setAspectByVideo(video) {
+      const wrapper = video.closest('.video-wrapper');
+      if (!wrapper) return;
+      if (!video.videoWidth || !video.videoHeight) {
+        video.addEventListener('loadedmetadata', () => setAspectByVideo(video), { once: true });
+        return;
+      }
+      if (video.videoWidth < video.videoHeight) {
+        wrapper.classList.add('vertical');
+      } else {
+        wrapper.classList.remove('vertical');
+      }
+    }
+
+    // ajusta altura e largura do container para ficar justo ao conteúdo (quando vertical)
+    function adjustContainerDimensions(slide) {
+      if (!slide) return;
+      const wrapper = slide.querySelector('.video-wrapper');
+      const video = wrapper ? wrapper.querySelector('video') : null;
+      const desc = slide.querySelector('.description');
+
+      // largura atual dos elementos
+      const wrapperWidth = wrapper ? wrapper.clientWidth : 0;
+      const descWidth = (desc && getComputedStyle(desc).display !== 'none') ? desc.clientWidth : 0;
+
+      // paddings do container
+      const style = window.getComputedStyle(carouselContainer);
+      const paddings = parseFloat(style.paddingLeft || 0) + parseFloat(style.paddingRight || 0);
+
+      const gap = parseFloat(getComputedStyle(slide).gap || 30);
+
+      // calcula largura final desejada (com segurança para não exceder viewport)
+      let totalWidth = wrapperWidth + descWidth + gap + paddings;
+      const maxAllowed = window.innerWidth - 40;
+      if (totalWidth > maxAllowed) totalWidth = maxAllowed;
+
+      // se o slide estiver vertical, reduzimos a largura do container para esse total; caso contrário removemos ajuste (usa max-width padrão)
+      if (wrapper && wrapper.classList.contains('vertical')) {
+        carouselContainer.style.width = Math.max(totalWidth, wrapperWidth + paddings + 20) + 'px';
+      } else {
+        carouselContainer.style.width = ''; // volta para max-width CSS
+      }
+
+      // altura (mantive seu cálculo original)
+      let wrapperHeight = wrapper ? wrapper.clientHeight : 0;
+      if (video && video.videoWidth && video.videoHeight) {
+        wrapperHeight = Math.round(wrapperWidth * (video.videoHeight / video.videoWidth));
+      }
+      const descHeight = desc ? desc.scrollHeight : 0;
+      const extra = 80;
+      const finalHeight = Math.max(wrapperHeight, descHeight) + extra;
+      carouselContainer.style.height = finalHeight + 'px';
+    }
+
+    // Atualiza a filling do segmento correspondente ao vídeo atual
+    function updateSegmentProgress(slideIndex, percent) {
+      segFills.forEach((f, i) => {
+        if (i === slideIndex) {
+          f.style.width = (percent || 0) + '%';
+        } else {
+          if (i < slideIndex) f.style.width = '100%';
+          else if (i > slideIndex) f.style.width = '0%';
+        }
+      });
+    }
+
+    function showSlide(i) {
+      const prev = slides[index];
+      if (prev) {
+        prev.classList.remove('active');
+        const prevVideo = prev.querySelector('video');
+        if (prevVideo) { prevVideo.pause(); prevVideo.currentTime = 0; }
+      }
+
+      index = (i + slides.length) % slides.length; // loop infinito
+      const current = slides[index];
+      current.classList.add('active');
+
+      // atualizar classes timeline
+      Array.from(timelineEl.children).forEach((seg, idx) => {
+        seg.classList.toggle('active', idx === index);
+      });
+
+      const video = current.querySelector('video');
+      if (video) {
+        setAspectByVideo(video);
+        adjustContainerDimensions(current);
+        try { video.currentTime = 0; } catch(e){}
+        const p = video.play();
+        if (p && typeof p.catch === 'function') p.catch(()=>{ /* autoplay bloqueado */ });
+      } else {
+        adjustContainerDimensions(current);
+      }
+    }
+
+    function nextSlide() { showSlide(index + 1); }
+    function prevSlide() { showSlide(index - 1); }
+
+    // inicializa timeline e listeners dos vídeos
+    buildTimeline();
+
+    slides.forEach((slide, sIndex) => {
+      const video = slide.querySelector('video');
+      if (!video) return;
+
+      // quando metadados prontos, setAspect e, se for slide ativo, ajustar container
+      video.addEventListener('loadedmetadata', () => {
+        setAspectByVideo(video);
+        if (slide.classList.contains('active')) adjustContainerDimensions(slide);
+      });
+
+      // update de progresso do vídeo (preenche segmento correspondente)
+      video.addEventListener('timeupdate', () => {
+        const dur = video.duration || 0;
+        const cur = video.currentTime || 0;
+        const pct = dur > 0 ? (cur / dur) * 100 : 0;
+        updateSegmentProgress(sIndex, pct);
+      });
+
+      // quando o vídeo terminar, vai para o próximo automaticamente
+      video.addEventListener('ended', () => {
+        updateSegmentProgress(sIndex, 100);
+        setTimeout(() => nextSlide(), 200);
+      });
+
+      // se o usuário apertar play manualmente, garante que o slide passe a ser o ativo
+      video.addEventListener('play', () => {
+        const sIndexNow = slides.indexOf(slide);
+        if (sIndexNow !== index) showSlide(sIndexNow);
+      });
+    });
+
+    // inicialização (carrega e tenta tocar o primeiro)
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+      Array.from(timelineEl.children).forEach((seg, idx) => {
+        const fill = seg.querySelector('.fill');
+        fill.style.width = idx < index ? '100%' : '0%';
+      });
+
+      const initial = slides[index];
+      if (initial) {
+        const initVideo = initial.querySelector('video');
+        if (initVideo && initVideo.readyState >= 1) {
+          setAspectByVideo(initVideo);
+          adjustContainerDimensions(initial);
+          initVideo.play().catch(()=>{});
+        } else if (initVideo) {
+          initVideo.addEventListener('loadedmetadata', () => {
+            setAspectByVideo(initVideo);
+            adjustContainerDimensions(initial);
+            initVideo.play().catch(()=>{});
+          }, { once: true });
+        } else {
+          adjustContainerDimensions(initial);
+        }
+      }
+    });
+
+    // navegação por teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // recalcula dims quando redimensiona janela
+    window.addEventListener('resize', () => {
+      const current = slides[index];
+      if (current) adjustContainerDimensions(current);
+    });
+  </script>
+</body>
+</html>

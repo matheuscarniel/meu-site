@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YouTube - Matheus Carniel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f44336;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    header a {
+      text-decoration: none;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 2px;
+      transition: color 0.3s ease;
+    }
+    header a:hover {
+      color: #ffd700;
+    }
+
+    section {
+      padding: 60px 40px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-size: 70px;
+      font-weight: 900;
+      margin-bottom: 60px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* Grid */
+    .youtube-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 40px;
+    }
+
+    .youtube-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .youtube-card:hover {
+      transform: scale(1.03);
+    }
+
+    .youtube-card iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+    }
+
+    .youtube-card h2 {
+      margin: 15px;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.4em;
+    }
+
+    .yt-fallback {
+      display: inline-block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      background: white;
+      color: #f44336;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .yt-fallback:hover {
+      background: #ffd700;
+      transform: scale(1.05);
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 60px;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: white;
+      color: #f44336;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .back-btn:hover {
+      background: #ffd700;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .youtube-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">MATHEUS CARNIEL</a>
+    <div>YOUTUBE</div>
+  </header>
+
+  <section>
+    <h1>Youtube</h1>
+
+    <div class="youtube-grid">
+      <!-- Vídeo 1 -->
+      <div class="youtube-card">
+        <iframe 
+          title="Como Consumimos Arte - Comemória #02"
+          src="https://www.youtube-nocookie.com/embed/YSxRq1onrjE"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <a class="yt-fallback" href="https://youtu.be/YSxRq1onrjE" target="_blank">Assistir no YouTube</a>
+        <h2>Como Consumimos Arte - Comemória #02</h2>
+      </div>
+
+      <!-- Vídeo 2 -->
+      <div class="youtube-card">
+        <iframe 
+          title="Arroz de Festa | Papo Canjiqueiro #05"
+          src="https://www.youtube-nocookie.com/embed/EUuVw0ejzEA"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <a class="yt-fallback" href="https://youtu.be/EUuVw0ejzEA" target="_blank">Assistir no YouTube</a>
+        <h2>Arroz de Festa | Papo Canjiqueiro #05</h2>
+      </div>
+
+      <!-- Vídeo 3 -->
+      <div class="youtube-card">
+        <iframe 
+          title="A Cobra Vai Fumar | Papo Canjiqueiro #04"
+          src="https://www.youtube-nocookie.com/embed/ZfnZ6cfYPzA"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <a class="yt-fallback" href="https://youtu.be/ZfnZ6cfYPzA" target="_blank">Assistir no YouTube</a>
+        <h2>A Cobra Vai Fumar | Papo Canjiqueiro #04</h2>
+      </div>
+
+      <!-- Vídeo 4 -->
+      <div class="youtube-card">
+        <iframe 
+          title="Dia do Índio? - Comemória #03"
+          src="https://www.youtube-nocookie.com/embed/mv8KykGXQlw"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <a class="yt-fallback" href="https://youtu.be/mv8KykGXQlw" target="_blank">Assistir no YouTube</a>
+        <h2>Dia do Índio? - Comemória #03</h2>
+      </div>
+
+      <!-- Vídeo 5 (corrigido + fallback) -->
+      <div class="youtube-card">
+        <iframe 
+          title="Twin Peaks - A série que mudou a TV para sempre"
+          src="https://www.youtube.com/embed/5l08uPCT38U"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <a class="yt-fallback" href="https://youtu.be/5l08uPCT38U" target="_blank">Assistir no YouTube</a>
+        <h2>Twin Peaks - A série que mudou a TV para sempre</h2>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="../outros.html" class="back-btn">Voltar</a>
+    </div>
+  </section>
+
+  <footer>© 2025 Matheus Carniel. Todos os direitos reservados.</footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll("section").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

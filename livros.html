@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Livros - Matheus Carniel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+    :root{
+      --red: #f44336;
+      --gold: #ffd700;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--red);
+      color: #fff;
+      opacity: 0;
+      transition: opacity .6s ease;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    body.loaded{opacity:1}
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      padding:20px 48px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:2px;
+    }
+    header a{
+      color:inherit;
+      text-decoration:none;
+      transition:color .3s;
+    }
+    header a:hover{ color: var(--gold); }
+
+    h1.page-title{
+      text-align:center;
+      font-size:70px;
+      font-weight:900;
+      margin:40px 0 60px;
+      text-transform:uppercase;
+    }
+
+    .book-section{
+      display:flex;
+      align-items:center;
+      gap:48px;
+      padding:72px 8%;
+    }
+    .book-section.red{ background: var(--red); color:#fff; }
+    .book-section.white{ background:#fff; color:var(--red); }
+    .book-section.reverse{ flex-direction: row-reverse; }
+
+    .book-cover{
+      flex:0 0 360px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .book-cover img{
+      width:100%;
+      max-width:360px;
+      border-radius:6px;
+      box-shadow:0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    .book-content{ flex:1; max-width:900px; }
+    .book-content h2{
+      margin:0 0 16px 0;
+      font-size:48px;
+      font-weight:900;
+    }
+    .book-content p{
+      margin:0 0 20px 0;
+      font-size:15px;
+      line-height:1.6;
+      opacity:.95;
+      max-width:760px;
+    }
+
+    /* Botões de compra */
+    .buy-links{ margin-top:20px; display:flex; flex-wrap:wrap; gap:16px; }
+    .buy-btn{
+      display:inline-block;
+      padding:12px 26px;
+      font-size:14px;
+      font-weight:700;
+      text-transform:uppercase;
+      background:#fff;
+      color:var(--red);
+      border-radius:10px;
+      text-decoration:none;
+      transition: background .3s ease, transform .2s ease, color .3s ease;
+    }
+    .buy-btn:hover{
+      background: var(--gold);
+      color:#000;
+      transform: scale(1.05);
+    }
+    .book-section.white .buy-btn{ background: var(--red); color:#fff; }
+    .book-section.white .buy-btn:hover{ background: var(--gold); color:#000; }
+
+    /* Botão voltar */
+    .back-wrap{ text-align:center; padding:60px 0 90px; }
+    .back-btn{
+      display:inline-block;
+      padding:14px 30px;
+      font-weight:700;
+      text-transform:uppercase;
+      background:#fff;
+      color:var(--red);
+      border-radius:10px;
+      text-decoration:none;
+      transition: transform .18s ease, background .18s ease;
+    }
+    .back-btn:hover{ transform:scale(1.04); background:var(--gold); color:#000; }
+
+    footer{ text-align:center; padding:18px 0 40px; font-size:12px; }
+
+    /* Animações */
+    section{ opacity:0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+    section.visible{ opacity:1; transform: translateY(0); }
+
+    /* Responsivo */
+    @media (max-width: 720px){
+      .book-section{ flex-direction:column; padding:48px 6%; text-align:center; }
+      .book-section.reverse{ flex-direction:column; }
+      .book-cover{ width:70%; max-width:320px; margin-bottom:18px; }
+      .book-content h2{ font-size:32px; }
+      .book-content p{ font-size:15px; }
+      .buy-links{ justify-content:center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="index.html">MATHEUS CARNIEL</a></div>
+    <div>LIVROS</div>
+  </header>
+
+  <h1 class="page-title">LIVROS</h1>
+
+  <!-- Livro 1 -->
+  <section class="book-section red">
+    <div class="book-cover">
+      <img src="assets/images/livros/vagoes-de-utopia.jpg" alt="Vagões de Utopia">
+    </div>
+    <div class="book-content">
+      <h2>Vagões de Utopia</h2>
+      <p>Em "Vagões de Utopia", o leitor é convidado a embarcar em uma jornada emocional através dos olhos de um caipira urbano do interior. Com poesias íntimas e profundas, o autor explora os mais variados sentimentos humanos, desde as mazelas da vida cotidiana, até a reflexão sobre cinema, música e a sátira urbana. É uma obra que promete emocionar e desafiar seus pensamentos sobre a vida e o mundo.</p>
+      <div class="buy-links">
+        <a class="buy-btn" href="https://loja.tomaaiumpoema.com.br/vagoes-de-utopia-matheus-carniel?srsltid=AfmBOooCeGt-VJtNyIkpRUTvVNvzvqqQ9_6Ec5bxYVQTaNohC7mer5z_" target="_blank">Site da Editora</a>
+        <a class="buy-btn" href="https://www.amazon.com.br/Vag%C3%B5es-Utopia-Matheus-Carniel-ebook/dp/B0CBCZBTPW" target="_blank">Amazon</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Livro 2 -->
+  <section class="book-section white reverse">
+    <div class="book-cover">
+      <img src="assets/images/livros/cravinhos-vai-ao-cinema.jpg" alt="Livro 2">
+    </div>
+    <div class="book-content">
+      <h2>Cravinhos vai ao Cinema</h2>
+      <p>Quando o cinema chegou a Cravinhos, trouxe luz, assombro e um bocado de mentiras que viraram verdade nas crônicas de Matheus Carniel. Misturando história e invenção, este livro é um tributo à memória, ao imaginário popular e ao poder de sonhar diante de uma tela.</p>
+      <div class="buy-links">
+        <a class="buy-btn" href="https://wa.me/5516991911882?text=Oie!%20Gostaria%20de%20comprar%20o%20livro%20Cravinhos%20vai%20ao%20Cinema" target="_blank">Comprar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Livro 3 -->
+  <section class="book-section red">
+    <div class="book-cover">
+      <img src="assets/images/livros/epifanias.jpg" alt="Livro 3">
+    </div>
+    <div class="book-content">
+      <h2>Epifanias de chumbo</h2>
+      <p>Epifanias de Chumbo: Contos do Horror Urbano” é uma coletânea sombria que explora medos profundos e horrores urbanos. Em cenários que vão de vilas isoladas a metrópoles agitadas, os contos revelam a crueldade e a loucura humanas. Cada narrativa é uma viagem perturbadora, abordando a desintegração da identidade e os terrores que assediam os personagens. Com microcontos intensos, momentos de horror visceral são capturados, deixando o leitor à mercê da própria imaginação.
+Esta não é apenas uma coletânea de histórias assustadoras, mas um espelho distorcido que nos força a confrontar as sombras que habitam dentro de nós. Prepare-se para ser arrebatado por narrativas que se entrelaçam em sua mente e não o deixam ileso.</p>
+      <div class="buy-links">
+        <a class="buy-btn" href="https://operaeditorial.com.br/produto/epifanias-de-chumbo/">Site da Editora</a>
+        <a class="buy-btn" href="https://www.amazon.com.br/Epifanias-Chumbo-Contos-Horror-Urbano-ebook/dp/B0FHQTNXPF/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1D98CTBKDUAZ2&dib=eyJ2IjoiMSJ9.lBwhoqiUeGiAmok0D9LDAkn0Ex6SZkh89PI_XFSHJNHGjHj071QN20LucGBJIEps.73kaFM3dmnYpwvTNxT7U1jBgZ5PWhXl8o6NYUc_j75w&dib_tag=se&keywords=Epifanias+de+Chumbo&qid=1759416239&sprefix=epifanias+de+chumbo%2Caps%2C364&sr=8-1" target="_blank">Amazon</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Livro 4 -->
+  <section class="book-section white reverse">
+    <div class="book-cover">
+      <img src="assets/images/livros/saideira.jpg" alt="Livro 4">
+    </div>
+    <div class="book-content">
+      <h2>A Saideira</h2>
+      <p>A liberdade que as palavras nos dão caminha por esse livro, questionamentos sobre questões sociais, vidas e vivências.
+Um compilado de pensamentos e devaneios de várias etapas de uma singela vida, tudo isso em (re)formas poéticas.
+Se você sonha em rasgar o céu com as mãos, atravessar o oceano por cima e por baixo, em correr sem tocar o concreto do asfalto, corre o grave risco de se encontrar aqui, no meio dessas palavras.</p>
+      <div class="buy-links">
+        <a class="buy-btn" href="https://loja.uiclap.com/titulo/ua8118/?srsltid=AfmBOor6-vKXMJ0Uk7LfqJkXjZ_lBGucVJwmlZDaSdQVws7YyI-3eRmA">Site da Editora</a>
+        <a class="buy-btn" href="https://www.amazon.com.br/Saideira-Mais-uma-dose-poesia-ebook/dp/B089T5FFZM/ref=tmm_kin_swatch_0" target="_blank">Amazon</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="back-wrap">
+    <a class="back-btn" href="index.html">Voltar</a>
+  </div>
+
+  <footer>© 2025 Matheus Carniel. Todos os direitos reservados.</footer>
+
+  <script>
+    window.addEventListener('load', () => document.body.classList.add('loaded'));
+    const observer = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, {threshold: 0.12});
+    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+  </script>
+</body>
+</html>

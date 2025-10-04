@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eventos - Matheus Carniel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f44336; /* mesma cor dos casamentos */
+      color: white;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    header a {
+      text-decoration: none;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 2px;
+      transition: color 0.3s ease;
+    }
+    header a:hover {
+      color: #ffd700;
+    }
+
+    section {
+      padding: 60px 40px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-size: 70px;
+      font-weight: 900;
+      margin-bottom: 60px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* Bloco individual */
+    .evento-bloco {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 100px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+    .evento-bloco:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .evento-bloco.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Wrapper do vídeo */
+    .video-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .video-wrapper iframe {
+      width: 100%;
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    /* Normal (16:9) */
+    .video-wrapper iframe {
+      aspect-ratio: 16 / 9;
+      max-height: 80vh;
+    }
+    /* Shorts (9:16) */
+    .video-wrapper.vertical iframe {
+      aspect-ratio: 9 / 16;
+      max-width: 400px;
+    }
+
+    .evento-info {
+      flex: 1;
+    }
+    .evento-info h2 {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .evento-info p {
+      font-size: 18px;
+      line-height: 1.6em;
+      color: #f0f0f0;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: white;
+      color: #f44336;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .back-btn:hover {
+      background: #ffd700;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 12px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .evento-bloco,
+      .evento-bloco:nth-child(even) {
+        flex-direction: column;
+        text-align: center;
+      }
+      .video-wrapper iframe {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">MATHEUS CARNIEL</a>
+    <div>EVENTOS</div>
+  </header>
+
+  <section>
+    <h1>Eventos</h1>
+
+    <!-- Evento 1 -->
+    <div class="evento-bloco">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/tuXw6fvd88o" allowfullscreen></iframe>
+      </div>
+      <div class="evento-info">
+        <h2>Natal Solidário - 2024</h2>
+        <p>Um momento especial de solidariedade e alegria realizado no Cine Foto Clube.</p>
+      </div>
+    </div>
+
+    <!-- Evento 2 (YouTube Shorts - vertical) -->
+    <div class="evento-bloco">
+      <div class="video-wrapper vertical">
+        <iframe src="https://www.youtube.com/embed/-CLmWvCaTfo" allowfullscreen></iframe>
+      </div>
+      <div class="evento-info">
+        <h2>Dia das Mães - 2025</h2>
+        <p>Uma homenagem emocionante e cheia de carinho realizada no Cine Foto Clube.</p>
+      </div>
+    </div>
+
+    <!-- Evento 3 -->
+    <div class="evento-bloco">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/f13ccqFpObM" allowfullscreen></iframe>
+      </div>
+      <div class="evento-info">
+        <h2>CapturArte - Sarau</h2>
+        <p>Uma noite de cultura e arte com apresentações diversas e muita inspiração.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="../outros.html" class="back-btn">Voltar</a>
+    </div>
+  </section>
+
+  <footer>© 2025 Matheus Carniel. Todos os direitos reservados.</footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll("section, .evento-bloco").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
