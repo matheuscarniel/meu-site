@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Filme - Matheus Carniel</title>
+  <style>
+    /* --- Copiei o estilo do seu modelo filme.html --- */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+    body{margin:0;font-family:'Montserrat',sans-serif;background:#f44336;color:#fff}
+    header{display:flex;justify-content:space-between;padding:20px 40px;font-size:12px;font-weight:700;letter-spacing:2px;max-width:1200px;margin:0 auto}
+    header a{color:#fff;text-decoration:none;font-weight:700;letter-spacing:2px}
+    header a:hover{color:#ffd700}
+    h1{font-size:44px;font-weight:900;margin:40px 0;text-transform:uppercase;color:#fff;text-align:center}
+    .container{max-width:1200px;margin:0 auto;padding:20px 20px 60px;display:grid;grid-template-columns:1fr 2fr;gap:50px;align-items:center}
+    .poster{display:flex;justify-content:center;align-items:center}
+    .poster img{width:100%;max-width:420px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+    .info{display:flex;flex-direction:column;gap:24px}
+    .info h2{font-size:20px;font-weight:700;margin:0;color:#fff}
+    .sinopse{font-size:16px;line-height:1.7;color:#fff}
+    .descricao{font-size:15px;line-height:1.6;color:#f1f1f1}
+    .frames{margin-top:10px;display:flex;gap:20px;justify-content:center}
+    .frames img{width:48%;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+    .video{margin:60px auto 40px;max-width:900px;padding:0 20px}
+    .video iframe,.video video{width:100%;height:500px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+    .back-btn{display:inline-block;margin:20px auto 60px;padding:15px 30px;font-size:16px;font-weight:700;text-transform:uppercase;background:#fff;color:#f44336;border-radius:10px;text-decoration:none}
+    .back-btn:hover{background:#f1f1f1;transform:scale(1.05)}
+    @media(max-width:900px){.container{grid-template-columns:1fr;text-align:center}.poster img{max-width:320px}.info{align-items:center}.frames{flex-direction:column}.frames img{width:90%}h1{font-size:32px}}
+    .center{text-align:center}
+    .spinner{width:48px;height:48px;border:6px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin:40px auto}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">MATHEUS CARNIEL</a>
+    <div>FILMES</div>
+  </header>
+
+  <h1 id="titulo">Carregando...</h1>
+
+  <section class="container" id="conteudo">
+    <div class="poster" id="poster-wrap">
+      <div class="spinner"></div>
+    </div>
+
+    <div class="info" id="info-wrap" style="display:none">
+      <h2>Sinopse</h2>
+      <p class="sinopse" id="sinopse"></p>
+
+      <h2>O que fiz no filme</h2>
+      <p class="descricao" id="oQueFiz"></p>
+
+      <div class="frames" id="frames"></div>
+    </div>
+  </section>
+
+  <section class="video" id="video-wrap" style="display:none">
+    <!-- iframe será inserido dinamicamente -->
+  </section>
+
+  <div class="center">
+    <a href="filmes.html" class="back-btn">Voltar</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, query, where, limit, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA5Nu6Bfg-QwmM3YnHLXHjNBbXi5aeK02k",
+      authDomain: "textos-matheus.firebaseapp.com",
+      projectId: "textos-matheus",
+      storageBucket: "textos-matheus.appspot.com",
+      messagingSenderId: "292723977997",
+      appId: "1:292723977997:web:77baca4b9d2dd8ff638a44"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // pega ?slug=...
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+    const tituloEl = document.getElementById('titulo');
+    const posterWrap = document.getElementById('poster-wrap');
+    const infoWrap = document.getElementById('info-wrap');
+    const sinopseEl = document.getElementById('sinopse');
+    const oQueFizEl = document.getElementById('oQueFiz');
+    const framesEl = document.getElementById('frames');
+    const videoWrap = document.getElementById('video-wrap');
+
+    if (!slug) {
+      tituloEl.textContent = "Filme não encontrado";
+      posterWrap.innerHTML = '<p class="center">Slug não informado.</p>';
+    } else {
+      (async function loadFilme() {
+        try {
+          const q = query(collection(db, "filmes"), where("slug", "==", decodeURIComponent(slug)), limit(1));
+          const snap = await getDocs(q);
+          if (snap.empty) {
+            tituloEl.textContent = "Filme não encontrado";
+            posterWrap.innerHTML = '<p class="center">Nenhum filme com esse slug.</p>';
+            return;
+          }
+          const doc = snap.docs[0];
+          const f = doc.data();
+
+          // Preencher a página
+          tituloEl.textContent = f.titulo || 'Sem título';
+
+          // poster
+          posterWrap.innerHTML = `<img src="${(f.poster||'assets/images/filmes/filme9.jpg')}" alt="Poster ${f.titulo}">`;
+
+          // sinopse / o que fiz
+          sinopseEl.innerHTML = f.sinopse || '';
+          oQueFizEl.innerHTML = f.oquefiz || f.oQueFiz || f.descricao || '';
+
+          // frames
+          framesEl.innerHTML = '';
+          if (f.frame1) framesEl.innerHTML += `<img src="${f.frame1}" alt="Frame 1 ${f.titulo}">`;
+          if (f.frame2) framesEl.innerHTML += `<img src="${f.frame2}" alt="Frame 2 ${f.titulo}">`;
+
+          // video
+          if (f.video) {
+            videoWrap.style.display = 'block';
+            videoWrap.innerHTML = `<iframe src="${f.video}" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          }
+
+          infoWrap.style.display = 'flex';
+        } catch (err) {
+          console.error("Erro ao carregar filme:", err);
+          tituloEl.textContent = "Erro ao carregar";
+          posterWrap.innerHTML = '<p class="center">Ocorreu um erro (veja console).</p>';
+        }
+      })();
+    }
+
+  </script>
+</body>
+</html>

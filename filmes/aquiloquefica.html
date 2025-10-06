@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fantasmas Noturnos - Matheus Carniel</title>
-  <style>
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
     body {
       margin: 0;
@@ -24,6 +20,18 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
+header a {
+  color: #fff;             /* deixa o texto branco */
+  text-decoration: none;   /* remove o sublinhado */
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+header a:hover {
+  color: #ffd700;          /* muda para dourado no hover (opcional) */
+  text-decoration: none;
+}
 
     h1 {
       font-size: 44px;
@@ -159,43 +167,40 @@
 </head>
 <body>
   <header>
-    <div>MATHEUS CARNIEL</div>
+    <a href="../index.html">MATHEUS CARNIEL</a>
     <div>FILMES</div>
   </header>
 
-  <h1>Fantasmas Noturnos</h1>
+  <h1>Aquilo que Fica</h1>
 
   <section class="container">
     <div class="poster">
-      <img src="assets/images/posters/fantasmasnoturnos.jpg" alt="Poster Fantasmas Noturnos">
+      <img src="../assets/images/posters/aquiloquefica.jpg" alt="Poster Aquilo que Fica">
     </div>
     <div class="info">
       <h2>Sinopse</h2>
-      <p class="sinopse">Na cidade, à noite, fantasmas motorizados assombram as ruas.</p>
+      <p class="sinopse">O que fica quando perdemos algo?</p>
 
       <h2>O que fiz no filme</h2>
-      <p class="descricao">Direção, direção de fotografia experimental e edição. Fui responsável pela construção visual e pela criação sonora que conduz a narrativa. O filme percorreu diversos festivais e conquistou o prêmio de Melhor Edição de Som.</p>
+      <p class="descricao">Meu primeiro filme, no qual assumi todas as etapas da produção, desde a captação de áudio até a finalização. Foi uma verdadeira aventura realizar este projeto, do qual tenho muito orgulho, e tivemos a honra de participar do nosso primeiro festival.</p>
 
       <div class="frames">
-        <img src="assets/images/filmes/filme13.jpg" alt="Frame 1 Fantasmas Noturnos">
-        <img src="assets/images/filmes/frames/fantasmas.jpg" alt="Frame 2 Fantasmas Noturnos">
+        <img src="../assets/images/filmes/filme7.jpg" alt="Frame 1 Aquilo que Fica">
+        <img src="../assets/images/filmes/frames/aquilo.jpg" alt="Frame 2 Aquilo que Fica">
       </div>
     </div>
   </section>
 
   <section class="video">
     <!-- YouTube embed (link fornecido pelo usuário) -->
-    <iframe src="https://www.youtube.com/embed/yBXthd1hg7Q" frameborder="0"
+    <iframe src="https://www.youtube.com/embed/cs38z5TbBn8" frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen></iframe>
   </section>
 
   <div style="text-align:center;">
-    <a href="filmes.html" class="back-btn">Voltar</a>
+    <a href="../filmes.html" class="back-btn">Voltar</a>
   </div>
 
-  <footer>
-    <p>© 2025 Matheus Carniel. Todos os direitos reservados.</p>
-  </footer>
 </body>
 </html>

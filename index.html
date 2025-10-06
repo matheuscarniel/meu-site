@@ -67,7 +67,6 @@
       font-weight: 500;
     }
 
-    /* Categorias principais */
     .categories {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -83,7 +82,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
+      text-align: center;
     }
 
     .category video {
@@ -94,7 +94,7 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
     }
 
     .category h3 {
@@ -106,9 +106,10 @@
       text-transform: uppercase;
       text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
       z-index: 1;
+      text-align: center;
+      width: 100%;
     }
 
-    /* Reel */
     .reel {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -120,7 +121,7 @@
     .reel-video {
       grid-row: span 2;
       background: black;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
       overflow: hidden;
     }
 
@@ -128,7 +129,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
     }
 
     .reel-text {
@@ -142,12 +143,12 @@
       line-height: 1.1;
       text-transform: uppercase;
       text-align: center;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
     }
 
     .reel-img {
       background: #111;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
       overflow: hidden;
     }
 
@@ -155,10 +156,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
     }
 
-    /* Sobre */
     .about {
       position: relative;
       text-align: left;
@@ -169,7 +169,7 @@
       align-items: center;
       gap: 40px;
       padding: 60px 40px;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
     }
 
     .about img {
@@ -177,7 +177,7 @@
       max-height: 500px;
       object-fit: cover;
       display: block;
-      border-radius: 15px; /* borda arredondada */
+      border-radius: 15px;
     }
 
     .about-text { flex: 1; }
@@ -191,7 +191,6 @@
 
     .about p { font-size: 16px; line-height: 1.6; max-width: 600px; }
 
-    /* Livros e Textos */
     .books { margin-top: 60px; text-align: center; }
 
     .books-links {
@@ -213,11 +212,7 @@
       color: #ffd700;
     }
 
-    /* Contato */
-    .contact {
-      margin-top: 60px;
-      text-align: center;
-    }
+    .contact { margin-top: 60px; text-align: center; }
 
     .contact h2 {
       font-size: 50px;
@@ -250,8 +245,37 @@
       padding: 40px;
       font-size: 12px;
     }
+
+    @media (max-width: 1024px) {
+      header { flex-direction: column; text-align: center; gap: 10px; padding: 20px; }
+      .hero h1 { font-size: 50px; }
+      .hero h2 { font-size: 22px; }
+      .hero p { font-size: 15px; max-width: 90%; }
+      .reel { grid-template-columns: 1fr; }
+      .reel-text { font-size: 32px; padding: 20px; }
+      .about { flex-direction: column; text-align: center; padding: 40px 20px; }
+      .about img { width: 100%; max-height: 300px; }
+      .about h2 { font-size: 48px; }
+      .books-links { flex-direction: column; gap: 30px; }
+      .books-links div { font-size: 40px; }
+      .social-links { flex-wrap: wrap; gap: 25px; }
+      .social-links a { font-size: 32px; }
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 14px; }
+      .hero { padding: 60px 15px; }
+      .hero h1 { font-size: 36px; }
+      .hero h2 { font-size: 18px; }
+      .categories { grid-template-columns: 1fr; }
+      .category { height: 220px; }
+      .category h3 { font-size: 28px; text-align: center; }
+      .reel-text { font-size: 24px; }
+      .about h2 { font-size: 36px; }
+      .contact h2 { font-size: 32px; }
+      footer { font-size: 10px; padding: 20px; }
+    }
   </style>
-  <!-- Font Awesome local -->
   <link rel="stylesheet" href="css/webfonts/fontawesome-free-7.0.1-web/css/all.min.css">
 </head>
 <body>
@@ -320,12 +344,8 @@
   <footer>© 2025 Matheus Carniel. Todos os direitos reservados.</footer>
 
   <script>
-    // Fade-in inicial
-    window.addEventListener("load", () => {
-      document.body.classList.add("loaded");
-    });
+    window.addEventListener("load", () => { document.body.classList.add("loaded"); });
 
-    // Fade-out ao sair
     document.querySelectorAll("a, .category, .books-links div").forEach(el => {
       el.addEventListener("click", e => {
         if (el.getAttribute("target") === "_blank" || el.href?.startsWith("mailto:")) return;
@@ -337,11 +357,8 @@
       });
     });
 
-    // Fade-in on scroll
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
-      });
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("visible"); });
     }, { threshold: 0.2 });
 
     document.querySelectorAll("section").forEach(section => observer.observe(section));

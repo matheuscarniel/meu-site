@@ -6,168 +6,26 @@
   <title>Filmes - Matheus Carniel</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
-
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #f44336;
-      color: white;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-    body.loaded { opacity: 1; }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 40px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-    }
-
-    section {
-      padding: 60px 40px;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    h1 {
-      font-size: 70px;
-      font-weight: 900;
-      margin-bottom: 40px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    /* Grade fixa com 3 colunas */
-    .films-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-    }
-
-    /* Card do filme */
-    .film {
-      position: relative;            /* necessário para o overlay */
-      background: transparent;       /* remover fundo sólido */
-      border-radius: 15px;
-      overflow: hidden;              /* garante cantos arredondados e clip do overlay */
-      transition: transform 0.28s ease;
-      text-decoration: none;
-      color: white;
-      display: block;
-    }
-
-    .film:hover { transform: scale(1.03); }
-
-    .film img {
-      width: 100%;
-      height: 260px;                 /* retangular — ajuste se quiser mais/menos alto */
-      object-fit: cover;
-      display: block;
-      -o-object-fit: cover;
-    }
-
-    /* Overlay inferior: SEM BLUR, apenas alfa mais escuro */
-    .film-info {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 18px 16px;
-      /* sem backdrop-filter; gradiente alfa apenas para escurecer a porção inferior */
-      background: linear-gradient(180deg,
-                  rgba(0,0,0,0) 0%,
-                  rgba(0,0,0,0.40) 45%,
-                  rgba(0,0,0,0.65) 100%);
-      border-radius: 0 0 15px 15px;
-    }
-
-    /* Texto com leve sombra para garantir leitura (mas sem blur no fundo) */
-    .film-info h3 {
-      margin: 0 0 8px 0;
-      font-size: 18px;
-      font-weight: 700;
-      text-transform: uppercase;
-      text-align: left;
-      padding: 0 6px;
-      color: #fff;
-      /* pequena sombra no texto apenas para contraste */
-      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-    }
-
-    .film-meta {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      flex-wrap: wrap;
-      font-size: 13px;
-      color: #eee;
-      padding: 0 6px;
-    }
-
-    .film-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .film-meta i {
-      color: #ffd700;
-      min-width: 16px;
-      text-align: center;
-    }
-
-    /* Hover: aumenta levemente a opacidade da faixa inferior (sem blur) */
-    .film:hover .film-info {
-      background: linear-gradient(180deg,
-                  rgba(0,0,0,0) 0%,
-                  rgba(0,0,0,0.50) 45%,
-                  rgba(0,0,0,0.80) 100%);
-    }
-
-    /* Botão voltar */
-    .back-btn {
-      display: inline-block;
-      margin-top: 60px;
-      padding: 15px 30px;
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      background: white;
-      color: #f44336;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-    .back-btn:hover {
-      background: #ffd700;
-      transform: scale(1.05);
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px;
-      font-size: 12px;
-    }
-
-    /* Responsivo */
-    @media (max-width: 1024px) {
-      .films-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .films-grid { grid-template-columns: 1fr; }
-      .film img { height: 220px; }
-    }
+    body{margin:0;font-family:'Montserrat',sans-serif;background-color:#f44336;color:white;opacity:0;transition:opacity .6s;}
+    body.loaded{opacity:1}
+    header{display:flex;justify-content:space-between;padding:20px 40px;font-size:12px;font-weight:700;letter-spacing:2px;}
+    section{padding:60px 40px;opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s;}
+    section.visible{opacity:1;transform:translateY(0)}
+    h1{font-size:70px;font-weight:900;margin-bottom:40px;text-align:center;text-transform:uppercase;}
+    .films-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
+    .film{position:relative;border-radius:15px;overflow:hidden;transition:transform .28s;display:block;color:white;text-decoration:none;}
+    .film:hover{transform:scale(1.03)}
+    .film img{width:100%;height:260px;object-fit:cover;display:block}
+    .film-info{position:absolute;left:0;right:0;bottom:0;padding:18px 16px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.40)45%,rgba(0,0,0,0.65)100%);border-radius:0 0 15px 15px}
+    .film-info h3{margin:0 0 8px 0;font-size:18px;font-weight:700;text-transform:uppercase;padding:0 6px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+    .film-meta{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:13px;color:#eee;padding:0 6px}
+    .film-meta span{display:inline-flex;align-items:center;gap:8px}
+    .film-meta i{color:#ffd700;min-width:16px;text-align:center}
+    .back-btn{display:inline-block;margin-top:60px;padding:15px 30px;font-size:16px;font-weight:700;text-transform:uppercase;background:white;color:#f44336;border-radius:10px;text-decoration:none}
+    footer{text-align:center;padding:40px;font-size:12px}
+    @media(max-width:1024px){.films-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.films-grid{grid-template-columns:1fr}.film img{height:220px}}
   </style>
-
-  <!-- Font Awesome local -->
   <link rel="stylesheet" href="css/webfonts/fontawesome-free-7.0.1-web/css/all.min.css">
 </head>
 <body>
@@ -178,174 +36,57 @@
 
   <section>
     <h1>FILMES</h1>
-
-    <div class="films-grid">
-      <!-- 1 -->
-      <a class="film" href="fantasmasnoturnos.html">
-        <img src="assets/images/filmes/filme13.jpg" alt="Fantasmas Noturnos">
-        <div class="film-info">
-          <h3>Fantasmas Noturnos</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Experimental • 2025</span>
-            <span><i class="fas fa-clock"></i> 08 min</span>
-            <span><i class="fas fa-palette"></i> P&B</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 1 -->
-      <a class="film" href="cravinhos.html">
-        <img src="assets/images/filmes/filme1.jpg" alt="CRAVINHOS: HISTÓRIA E IDENTIDADE">
-        <div class="film-info">
-          <h3>CRAVINHOS: HISTÓRIA E IDENTIDADE</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Documentário • 2024</span>
-            <span><i class="fas fa-clock"></i> 109 min</span>
-            <span><i class="fas fa-palette"></i> Color</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 2 -->
-      <a class="film" href="umamusica.html">
-        <img src="assets/images/filmes/filme2.jpg" alt="Uma Música Apenas">
-        <div class="film-info">
-          <h3>Uma Música Apenas</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Drama • 2024</span>
-            <span><i class="fas fa-clock"></i> 08 min</span>
-            <span><i class="fas fa-palette"></i> Color</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 3 -->
-      <a class="film" href="ressonancia.html">
-        <img src="assets/images/filmes/filme3.jpg" alt="Ressonância do Tempo">
-        <div class="film-info">
-          <h3>Ressonância do Tempo</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Documentário • 2024</span>
-            <span><i class="fas fa-clock"></i> 06 min</span>
-            <span><i class="fas fa-palette"></i> Color</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 4 -->
-      <a class="film" href="coreto.html">
-        <img src="assets/images/filmes/filme4.jpg" alt="O Coreto">
-        <div class="film-info">
-          <h3>O Coreto</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Documentário • 2024</span>
-            <span><i class="fas fa-clock"></i> 04 min</span>
-            <span><i class="fas fa-palette"></i> Color</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 5 -->
-      <a class="film" href="filhosdofruto.html">
-        <img src="assets/images/filmes/filme5.jpg" alt="Filhos do Fruto Nuclear">
-        <div class="film-info">
-          <h3>Filhos do Fruto Nuclear</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Sci-fi • 2023</span>
-            <span><i class="fas fa-clock"></i> 19 min</span>
-            <span><i class="fas fa-palette"></i> P&B</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 6 -->
-      <a class="film" href="doispassos.html">
-        <img src="assets/images/filmes/filme6.jpg" alt="Dois Passos">
-        <div class="film-info">
-          <h3>Dois Passos</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Drama • 2022</span>
-            <span><i class="fas fa-clock"></i> 17 min</span>
-            <span><i class="fas fa-palette"></i> Color</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 7 -->
-      <a class="film" href="aquiloquefica.html">
-        <img src="assets/images/filmes/filme7.jpg" alt="AQUILO QUE FICA">
-        <div class="film-info">
-          <h3>AQUILO QUE FICA</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Drama • 2019</span>
-            <span><i class="fas fa-clock"></i> 03 min</span>
-            <span><i class="fas fa-palette"></i> P&B</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 8 -->
-      <a class="film" href="umacarta.html">
-        <img src="assets/images/filmes/filme8.jpg" alt="Uma Carta de Amor">
-        <div class="film-info">
-          <h3>Uma Carta de Amor</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Experimental • 2021</span>
-            <span><i class="fas fa-clock"></i> 06 min</span>
-            <span><i class="fas fa-palette"></i> Color</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 9 -->
-      <a class="film" href="belchior.html">
-        <img src="assets/images/filmes/filme9.jpg" alt="Comentários a respeito de Belchior">
-        <div class="film-info">
-          <h3>Comentários a respeito de Belchior</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Doc./Experimental • 2020</span>
-            <span><i class="fas fa-clock"></i> 11 min</span>
-            <span><i class="fas fa-palette"></i> Color</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 10 -->
-      <a class="film" href="orei.html">
-        <img src="assets/images/filmes/filme10.jpg" alt="O Rei e os Santos vão à guerra">
-        <div class="film-info">
-          <h3>O Rei e os Santos vão à guerra</h3>
-          <div class="film-meta">
-            <span><i class="fas fa-film"></i> Experimental • 2024</span>
-            <span><i class="fas fa-clock"></i> 05 min</span>
-            <span><i class="fas fa-palette"></i> P&B</span>
-          </div>
-        </div>
-      </a>
-
-    </div>
-
-    <div style="text-align:center;">
-      <a href="index.html" class="back-btn">Voltar</a>
-    </div>
+    <div id="grid" class="films-grid"></div>
+    <div id="loading" style="text-align:center"><div class="spinner"></div></div>
+    <div style="text-align:center;"><a href="index.html" class="back-btn">Voltar</a></div>
   </section>
-
   <footer>© 2025 Matheus Carniel. Todos os direitos reservados.</footer>
 
-  <script>
-    // Fade-in inicial
-    window.addEventListener("load", () => {
-      document.body.classList.add("loaded");
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    const app = initializeApp({
+      apiKey:"AIzaSyA5Nu6Bfg-QwmM3YnHLXHjNBbXi5aeK02k",
+      authDomain:"textos-matheus.firebaseapp.com",
+      projectId:"textos-matheus",
+      storageBucket:"textos-matheus.appspot.com",
+      messagingSenderId:"292723977997",
+      appId:"1:292723977997:web:77baca4b9d2dd8ff638a44"
     });
+    const db = getFirestore(app);
 
-    // Fade-in on scroll
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
+    const grid=document.getElementById('grid');
+    const loading=document.getElementById('loading');
+
+    (async()=>{
+      const q=query(collection(db,"filmes"),orderBy("ano","desc"));
+      const snap=await getDocs(q);
+      grid.innerHTML="";
+      snap.forEach(doc=>{
+        const f=doc.data();
+        const thumb=f.frame1||f.poster||"assets/images/filmes/filme9.jpg";
+        const slug=encodeURIComponent(f.slug||doc.id);
+        const href=`filme.html?slug=${slug}`;
+        const a=document.createElement('a');
+        a.className='film';
+        a.href=href;
+        a.innerHTML=`
+          <img src="${thumb}" alt="${f.titulo||''}">
+          <div class="film-info">
+            <h3>${f.titulo||'Sem título'}</h3>
+            <div class="film-meta">
+              <span><i class="fas fa-film"></i> ${f.genero||''} • ${f.ano||''}</span>
+              <span><i class="fas fa-clock"></i> ${f.duracao||''}</span>
+              <span><i class="fas fa-palette"></i> ${f.cor||''}</span>
+            </div>
+          </div>`;
+        grid.appendChild(a);
       });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll("section").forEach(section => observer.observe(section));
+      loading.style.display='none';
+      document.body.classList.add('loaded');
+      document.querySelector('section').classList.add('visible');
+    })();
   </script>
 </body>
 </html>

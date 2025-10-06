@@ -1,293 +1,703 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Painel Administrativo</title>
+  <meta charset="utf-8" />
+  <title>Painel Administrativo — Textos & Filmes</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: #f5f7fa;
-      color: #333;
+    :root{
+      --accent:#f44336;
+      --accent-dark:#d7352c;
+      --bg:#f5f7fa;
+      --card:#fff;
+      --muted:#767676;
+      --danger:#b00020;
+      --blue:#1e88e5;
+      --search-bg:#f2f4f7;
     }
+.form-group {
+  margin-bottom: 16px; /* aumenta o espaçamento vertical entre os campos */
+}
 
-    header {
-      background: #f44336;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
+input, select, textarea {
+  width: 100%;
+  padding: 12px 14px; /* mais conforto interno nos campos */
+  border-radius: 10px;
+  border: 1px solid #eee;
+  font-size: 14px;
+  background: #fff;
+}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Montserrat, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:var(--bg);color:#222}
+    header{background:var(--accent);color:#fff;padding:18px;font-weight:900;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .wrap{max-width:1080px;margin:28px auto;padding:0 12px}
+    .start-wrap{display:flex;gap:18px;justify-content:center;margin-bottom:18px}
+    .start-card{flex:1;background:var(--card);padding:22px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.06);cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:transform .16s}
+    .start-card:hover{transform:translateY(-6px)}
+    .start-card h2{margin:0;color:var(--accent);font-size:18px}
+    .start-card p{margin:0;color:var(--muted);font-size:14px}
+    .tabs{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+    .tab{padding:8px 12px;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer;font-weight:800;border:2px solid transparent}
+    .tab.active{background:var(--card);color:var(--accent);border-color:rgba(0,0,0,0.04);box-shadow:0 8px 18px rgba(0,0,0,0.04)}
+    .container{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.06);margin-bottom:18px}
+    h1{margin:0 0 14px;color:var(--accent);font-size:20px;font-weight:900}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    .full{grid-column:1/-1}
+    label{display:block;font-weight:700;margin-bottom:6px;font-size:13px}
+    input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #eee;font-size:14px;background:#fff}
+    #editor{width:100%;height:260px;border-radius:10px;border:1px solid #eee}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:800;color:#fff;transition:all .2s}
+    .btn i{font-size:14px}
+    .btn-primary{background:var(--accent)}
+    .btn-primary:hover{background:var(--accent-dark)}
+    .btn-blue{background:var(--blue)}
+    .btn-neutral{background:#8b8b8b}
+    .btn-danger{background:var(--danger)}
+    .btn.small{padding:6px 10px;border-radius:8px}
+    .cards{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+    .card-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;border:1px solid #f0f0f0;background:#fff}
+    .card-left{display:flex;gap:12px;align-items:center}
+    .thumb{width:100px;height:70px;border-radius:8px;overflow:hidden;flex-shrink:0;transition:transform .25s, box-shadow .25s}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
 
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
+header {
+  position: relative;
+  background: var(--accent);
+  color: #fff;
+  padding: 18px 24px;
+  font-weight: 900;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: center;
+}
 
-    h1 {
-      font-size: 28px;
-      font-weight: 900;
-      margin-bottom: 20px;
-      color: #f44336;
-      text-align: center;
-    }
+.header-title {
+  font-size: 18px;
+  letter-spacing: 1px;
+}
 
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-group label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 6px;
-    }
+.logout-btn {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.6);
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
 
-    .form-group input,
-    .form-group select,
-    #editor {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: border 0.2s;
-      box-sizing: border-box;
-      background: #fff;
-    }
+.logout-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #fff;
+}
 
-    .form-group input:focus,
-    .form-group select:focus,
-    #editor:focus-within {
-      outline: none;
-      border-color: #f44336;
-    }
+    .meta strong{font-size:15px}
+    .meta span{font-size:13px;color:var(--muted)}
+    .card-actions{display:flex;gap:8px}
+    .preview-card{background:#fafafa;border-radius:10px;padding:12px;border:1px solid #f0f0f0;text-align:center}
+    .preview-card img{max-width:100%;border-radius:8px;display:block;margin:0 auto}
+    .preview-placeholder{color:var(--muted);font-size:13px;padding:36px 6px}
+    .filters-row{display:flex;justify-content:center;margin:12px 0}
+    .search-bar{display:flex;gap:8px;align-items:center;background:var(--search-bg);padding:8px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.03);width:100%;max-width:920px}
+    .search-bar .small-select{width:150px}
+    .search-bar .small-year{width:110px}
+    .search-bar .title-input{flex:1;padding:10px;border-radius:10px;border:1px solid #e6e9ef;background:#fff}
+    .search-bar .icon-btn{background:transparent;border:none;padding:8px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:18px}
+    .search-bar .icon-btn:hover{background:rgba(0,0,0,0.04)}
+    .search-bar .clear-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:8px;border-radius:8px}
+    .files-row{display:flex;gap:10px;align-items:center;justify-content:center}
+    .poster-large{width:220px;height:150px;border-radius:10px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+    .frame-small{width:110px;height:75px;border-radius:8px;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,0.04)}
+.poster-vertical {
+  width: 260px;       /* mais estreito que o horizontal */
+  height: 390px;      /* formato 2:3 vertical */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  background: #fff;
+}
 
-    #editor {
-      height: 250px;
-      overflow-y: auto;
-      margin-bottom: 20px;
-    }
+.frame-large {
+  width: 260px;
+  height: 145px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+  background: #fff;
+}
 
-    button {
-      background: #f44336;
-      color: #fff;
-      font-weight: 700;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 15px;
-    }
-    button:hover {
-      background: #d7352c;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    .logout {
-      display: block;
-      margin: 20px auto 0;
-      background: #555;
-    }
-    .logout:hover {
-      background: #333;
-    }
-
-    /* Campo Nota só aparece se for Crítica */
-    #nota-filme-group {
-      display: none;
-    }
-
-    /* Estilo da Nota */
-    .nota-filme {
-      font-weight: bold;
-      color: #f44336;
-      margin-top: 16px;
-      display: block;
-    }
+@media (max-width: 768px) {
+  .poster-vertical {
+    width: 200px;
+    height: 300px;
+  }
+  .frame-large {
+    width: 200px;
+    height: 110px;
+  }
+}
+.tab-content {
+  display: none; /* todas as abas começam escondidas */
+}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}.start-wrap{flex-direction:column}.poster-large{width:160px;height:110px}.frame-small{width:80px;height:60px}}
   </style>
 </head>
 <body>
-  <header>Painel Administrativo</header>
-  
-  <div class="container">
-    <h1>Adicionar Novo Texto</h1>
-    <form id="form-texto">
-      <div class="form-group">
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" placeholder="Digite o título">
+  <header>
+  <div class="header-title">Painel Administrativo</div>
+  <button id="logoutBtn" class="btn btn-neutral logout-btn">
+    <i class="fa-solid fa-right-from-bracket"></i> Sair
+  </button>
+</header>
+  <div class="wrap">
+
+    <!-- START -->
+    <div id="startScreen" class="start-wrap">
+      <div id="openTextos" class="start-card"><h2><i class="fa-solid fa-feather"></i> Publicar Textos</h2><p>Publique, edite e gerencie textos facilmente.</p></div>
+      <div id="openFilmes" class="start-card"><h2><i class="fa-solid fa-clapperboard"></i> Publicar Filmes</h2><p>Publique e edite filmes com visual dinâmico.</p></div>
+    </div>
+
+    <!-- TABS -->
+    <div id="tabsHolder" style="display:none">
+      <div class="tabs">
+        <div class="tab active" data-tab="textosTab">Textos</div>
+        <div class="tab" data-tab="filmesTab">Filmes</div>
+      </div>
+    </div>
+
+    <!-- TEXTOS -->
+    <div id="textosTab" class="container tab-content">
+      <h1>Textos — Publicar & Gerenciar</h1>
+
+      <!-- Formulario de Textos -->
+      <div class="grid" style="align-items:start">
+        <div>
+          <div class="form-group"><label for="titulo">Título</label><input id="titulo" type="text" placeholder="Título do texto"></div>
+          <div class="form-group"><label for="resumo">Resumo</label><input id="resumo" type="text" placeholder="Resumo curto"></div>
+          <div class="form-group"><label for="meta">Tipo</label>
+            <select id="meta">
+              <option disabled selected>Selecione</option>
+              <option value="Crítica de Filme">Crítica de Filme</option>
+              <option value="Crônica">Crônica</option>
+              <option value="Opinião">Opinião</option>
+            </select>
+          </div>
+          <div id="nota-filme-group" class="form-group" style="display:none">
+            <label for="nota-filme">Nota do Filme</label>
+            <select id="nota-filme"><option value="">Selecione</option><option>0</option><option>0,5</option><option>1</option><option>1,5</option><option>2</option><option>2,5</option><option>3</option><option>3,5</option><option>4</option><option>4,5</option><option>5</option></select>
+          </div>
+          <div class="form-group"><label for="imagem">Imagem (URL)</label><input id="imagem" type="text" placeholder="Cole a URL da imagem"></div>
+        </div>
+
+        <div>
+          <div class="preview-card" id="textoPreview"><div class="preview-placeholder small-muted">Sem imagem.</div></div>
+        </div>
+
+        <div class="full">
+          <label>Conteúdo</label><div id="editor"></div>
+          <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+            <button id="salvar-texto" class="btn btn-primary"><i class="fa-solid fa-cloud-arrow-up"></i> Publicar Texto</button>
+            <button id="salvar-texto-alt" class="btn btn-blue" style="display:none"><i class="fa-solid fa-pen"></i> Salvar Alterações</button>
+            <button id="cancel-edit-texto" class="btn btn-neutral" style="display:none"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="resumo">Resumo</label>
-        <input type="text" id="resumo" placeholder="Pequeno resumo do texto">
+      <!-- Search bar (centralizada acima dos cards) -->
+      <div class="filters-row">
+        <div class="search-bar" id="searchBarTextos" role="search" aria-label="Filtro e busca de textos">
+          <select id="filtro-meta" class="small-select">
+            <option value="">Todos os tipos</option>
+            <option>Crítica de Filme</option>
+            <option>Crônica</option>
+            <option>Opinião</option>
+          </select>
+          <input id="filtro-ano-texto" class="small-year" type="number" placeholder="Ano">
+          <input id="filtro-titulo-texto" class="title-input" type="text" placeholder="Digite o título...">
+          <button id="btnPesquisaTexto" class="icon-btn" title="Pesquisar"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button id="limpar-filtros-texto" class="clear-btn" title="Limpar filtros">Limpar</button>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="meta">Tipo de Texto</label>
-        <select id="meta">
-          <option value="" disabled selected>Selecione o tipo</option>
-          <option value="Crítica de Filme">Crítica de Filme</option>
-          <option value="Crônica">Crônica</option>
-          <option value="Opinião">Opinião</option>
+      <!-- Cards de Textos -->
+      <div id="cardsContainerTextos">
+        <div class="cards" id="cards-textos"></div>
+      </div>
+    </div>
+
+<!-- FILMES -->
+<div id="filmesTab" class="container tab-content">
+  <h1>Filmes — Publicar & Gerenciar</h1>
+
+  <div class="grid" style="align-items:start">
+    <div>
+      <div class="form-group"><label for="filme-titulo">Título</label><input id="filme-titulo" type="text"></div>
+      <div class="form-group"><label for="filme-sinopse">Sinopse</label><input id="filme-sinopse" type="text"></div>
+      <div class="form-group"><label for="filme-oquefiz">O que fiz no filme</label><input id="filme-oquefiz" type="text"></div>
+      <div class="form-group"><label for="filme-ano">Ano</label><input id="filme-ano" type="number"></div>
+      <div class="form-group"><label for="filme-genero">Gênero</label>
+        <select id="filme-genero">
+          <option disabled selected>Selecione</option>
+          <option>Drama</option>
+          <option>Documentário</option>
+          <option>Experimental</option>
+          <option>Sci-fi</option>
+          <option>Terror</option>
         </select>
       </div>
-
-      <!-- 🔥 Campo Nota -->
-      <div class="form-group" id="nota-filme-group">
-        <label for="nota-filme">Nota do Filme</label>
-        <select id="nota-filme">
-          <option value="">Selecione...</option>
-          <option value="0">0</option>
-          <option value="0,5">0,5</option>
-          <option value="1">1</option>
-          <option value="1,5">1,5</option>
-          <option value="2">2</option>
-          <option value="2,5">2,5</option>
-          <option value="3">3</option>
-          <option value="3,5">3,5</option>
-          <option value="4">4</option>
-          <option value="4,5">4,5</option>
-          <option value="5">5</option>
+      <div class="form-group"><label for="filme-duracao">Duração</label><input id="filme-duracao" type="text"></div>
+      <div class="form-group"><label for="filme-cor">Cor</label>
+        <select id="filme-cor">
+          <option disabled selected>Selecione</option>
+          <option>Color</option>
+          <option>P&B</option>
         </select>
       </div>
+      <div class="form-group"><label for="filme-poster">Poster (URL)</label><input id="filme-poster" type="text" placeholder="Cole a URL do poster"></div>
+      <div class="form-group"><label for="filme-frame1">Frame 1 (URL)</label><input id="filme-frame1" type="text" placeholder="URL do frame 1"></div>
+      <div class="form-group"><label for="filme-frame2">Frame 2 (URL)</label><input id="filme-frame2" type="text" placeholder="URL do frame 2"></div>
+      <div class="form-group"><label for="filme-video">Vídeo (embed)</label><input id="filme-video" type="text"></div>
+      <div class="form-group"><label for="filme-slug">Slug (url)</label><input id="filme-slug" type="text" placeholder="ex: belchior"></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="publicar-filme" class="btn btn-primary"><i class="fa-solid fa-cloud-arrow-up"></i> Publicar</button>
+        <button id="salvar-alteracoes" class="btn btn-blue" style="display:none"><i class="fa-solid fa-pen"></i> Salvar</button>
+        <button id="cancel-edit" class="btn btn-neutral" style="display:none"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+      </div>
+    </div>
 
-      <div class="form-group">
-        <label for="imagem">Imagem</label>
-        <input type="text" id="imagem" placeholder="URL da imagem">
+    <div class="preview-card" style="padding:20px;display:flex;flex-direction:column;align-items:center;gap:18px">
+      <!-- Poster grande e vertical -->
+      <div class="poster-vertical" id="posterPreview">
+        <div class="preview-placeholder" style="padding:20px;color:var(--muted);text-align:center">
+          <i class="fa-solid fa-image" style="font-size:22px"></i>
+          <div style="font-size:13px;margin-top:8px">Poster</div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Conteúdo</label>
-        <div id="editor"></div>
+      <!-- Frame 1 -->
+      <div class="frame-large" id="frame1Preview">
+        <div class="preview-placeholder" style="padding:10px;color:var(--muted);font-size:12px;text-align:center">Frame 1</div>
       </div>
 
-      <button type="submit">Salvar</button>
-    </form>
+      <!-- Frame 2 -->
+      <div class="frame-large" id="frame2Preview">
+        <div class="preview-placeholder" style="padding:10px;color:var(--muted);font-size:12px;text-align:center">Frame 2</div>
+      </div>
+    </div>
 
-    <button class="logout" id="logoutBtn">Sair</button>
+    <div class="full" style="margin-top:6px"></div>
   </div>
 
-  <!-- Quill Editor -->
-  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <!-- Search bar (centralizada acima dos cards) -->
+  <div class="filters-row">
+    <div class="search-bar" id="searchBarFilmes" role="search" aria-label="Filtro e busca de filmes">
+      <select id="filtro-genero" class="small-select">
+        <option value="">Todos os gêneros</option>
+        <option>Drama</option>
+        <option>Documentário</option>
+        <option>Experimental</option>
+        <option>Sci-fi</option>
+        <option>Terror</option>
+      </select>
+      <input id="filtro-ano-filme" class="small-year" type="number" placeholder="Ano">
+      <input id="filtro-titulo-filme" class="title-input" type="text" placeholder="Digite o título do filme...">
+      <button id="btnPesquisaFilme" class="icon-btn" title="Pesquisar"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button id="limpar-filtros-filme" class="clear-btn" title="Limpar filtros">Limpar</button>
+    </div>
+  </div>
 
+  <!-- Cards de Filmes -->
+  <div id="cardsContainerFilmes">
+    <div class="cards" id="cards-filmes"></div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } 
-      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signOut } 
-      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-    // 🔥 Config Firebase
+    // CONFIG FIREBASE - mantenha sua config
     const firebaseConfig = {
-      apiKey: "AIzaSyA5Nu6Bfg-QwmM3YnHLXHjNBbXi5aeK02k",
-      authDomain: "textos-matheus.firebaseapp.com",
-      projectId: "textos-matheus",
-      storageBucket: "textos-matheus.appspot.com",
-      messagingSenderId: "292723977997",
-      appId: "1:292723977997:web:77baca4b9d2dd8ff638a44"
+      apiKey:"AIzaSyA5Nu6Bfg-QwmM3YnHLXHjNBbXi5aeK02k",
+      authDomain:"textos-matheus.firebaseapp.com",
+      projectId:"textos-matheus",
+      storageBucket:"textos-matheus.appspot.com",
+      messagingSenderId:"292723977997",
+      appId:"1:292723977997:web:77baca4b9d2dd8ff638a44"
     };
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    // 🔐 Verifica login
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-      }
-    });
+    // auth
+    onAuthStateChanged(auth,user=>{ if(!user) location.href='login.html' });
+    document.getElementById('logoutBtn').onclick = ()=> signOut(auth).then(()=>location.href='login.html');
 
-    // Logout
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
-    });
+    // editor
+    const quill = new Quill('#editor',{theme:'snow'});
 
-    // Quill editor
-    const quill = new Quill('#editor', {
-      theme: 'snow',
-      placeholder: 'Escreva seu texto aqui...',
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, 3, false] }],
-          ['bold', 'italic', 'underline'],
-          [{ 'align': [] }],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          ['link']
-        ]
-      }
-    });
+    // UI elements references
+    const startScreen = document.getElementById('startScreen');
+    const tabsHolder = document.getElementById('tabsHolder');
+    const tabEls = document.querySelectorAll('.tab');
+    const textosTab = document.getElementById('textosTab');
+    const filmesTab = document.getElementById('filmesTab');
+    document.getElementById('openTextos').onclick = ()=> showTab('textosTab');
+    document.getElementById('openFilmes').onclick = ()=> showTab('filmesTab');
+    tabEls.forEach(t=>t.addEventListener('click', ()=> showTab(t.dataset.tab)));
 
-    // Mostrar/esconder campo Nota
-    const metaSelect = document.getElementById("meta");
-    const notaGroup = document.getElementById("nota-filme-group");
-    metaSelect.addEventListener("change", () => {
-      if (metaSelect.value === "Crítica de Filme") {
-        notaGroup.style.display = "block";
-      } else {
-        notaGroup.style.display = "none";
-      }
-    });
-
-    // Função para gerar mês e ano
-    function getMesAno() {
-      const meses = [
-        "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-        "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
-      ];
-      const agora = new Date();
-      const mes = meses[agora.getMonth()];
-      const ano = agora.getFullYear();
-      return `${mes} ${ano}`;
+    function showTab(id){
+      startScreen.style.display = 'none';
+      tabsHolder.style.display = 'block';
+      tabEls.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+      textosTab.style.display = id==='textosTab' ? 'block' : 'none';
+      filmesTab.style.display = id==='filmesTab' ? 'block' : 'none';
+      if(id==='textosTab') loadTextos();
+      if(id==='filmesTab') loadFilmes();
     }
 
-    // Salvar no Firestore
-    document.getElementById("form-texto").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    /* --------------------- TEXTOS --------------------- */
+    const campoMeta = document.getElementById('meta');
+    const notaGroup = document.getElementById('nota-filme-group');
+    const campoNota = document.getElementById('nota-filme');
+    campoMeta.addEventListener('change', ()=> { notaGroup.style.display = campoMeta.value === 'Crítica de Filme' ? 'block' : 'none' });
 
-      const tipo = metaSelect.value;
-      const metaFinal = `${tipo} • ${getMesAno()}`;
+    const salvarTexto = document.getElementById('salvar-texto');
+    const salvarTextoAlt = document.getElementById('salvar-texto-alt');
+    const cancelTexto = document.getElementById('cancel-edit-texto');
+    const cardsTextos = document.getElementById('cards-textos');
+    const imagemInput = document.getElementById('imagem');
+    const textoPreview = document.getElementById('textoPreview');
 
-      let conteudoHTML = quill.root.innerHTML;
+    // search controls textos
+    const filtroMeta = document.getElementById('filtro-meta');
+    const filtroAnoTexto = document.getElementById('filtro-ano-texto');
+    const filtroTituloTexto = document.getElementById('filtro-titulo-texto');
+    const btnPesquisaTexto = document.getElementById('btnPesquisaTexto');
+    const btnLimparTexto = document.getElementById('limpar-filtros-texto');
 
-      // 🔥 Se for Crítica de Filme e tiver nota, adiciona no final
-      let nota = document.getElementById("nota-filme").value;
-      if (tipo === "Crítica de Filme" && nota) {
-        conteudoHTML += `<span class="nota-filme">Nota: ${nota}/5</span>`;
-      } else {
-        nota = null;
-      }
+    let editTexto = null;
 
-      try {
-        await addDoc(collection(db, "textos"), {
-          titulo: document.getElementById("titulo").value.trim(),
-          resumo: document.getElementById("resumo").value.trim(),
-          meta: metaFinal,
-          imagem: document.getElementById("imagem").value.trim(),
-          conteudo: conteudoHTML,
-          notaFilme: nota,
-          criadoEm: serverTimestamp()
-        });
+    function updateTextoPreview(){
+      const url = (imagemInput.value || '').trim();
+      textoPreview.innerHTML = url ? `<img src="${url}" alt="Imagem do texto" onerror="this.style.display='none'">` : `<div class="preview-placeholder small-muted">Sem imagem.</div>`;
+    }
+    imagemInput.addEventListener('input', updateTextoPreview);
 
-        alert("✅ Texto adicionado!");
-        document.getElementById("form-texto").reset();
-        quill.setContents([]);
-        notaGroup.style.display = "none"; // esconde nota de novo
-      } catch (error) {
-        console.error("Erro ao salvar:", error);
-        alert("❌ Erro ao salvar o texto. Veja o console.");
-      }
+    // publish new texto
+    salvarTexto.addEventListener('click', async ()=>{
+      const titulo = document.getElementById('titulo').value.trim();
+      if(!titulo) return alert('Preencha o título');
+      const resumo = document.getElementById('resumo').value.trim();
+      const tipo = campoMeta.value || '';
+      if(!tipo) return alert('Escolha o tipo do texto');
+      const nota = campoNota.value || '';
+      const imagem = (imagemInput.value || '').trim();
+      const conteudo = quill.root.innerHTML;
+      const meta = `${tipo} • ${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}`;
+      await addDoc(collection(db,'textos'),{titulo,resumo,meta,imagem,conteudo,notaFilme:nota||null,criadoEm:serverTimestamp()});
+      alert('✅ Texto publicado!');
+      resetTexto();
+      loadTextos();
     });
+
+    function resetTexto(){
+      editTexto = null;
+      document.querySelectorAll('#titulo,#resumo,#imagem').forEach(i=>i.value='');
+      campoMeta.value = '';
+      campoNota.value = '';
+      notaGroup.style.display = 'none';
+      quill.setContents([]);
+      salvarTexto.style.display = 'inline-flex';
+      salvarTextoAlt.style.display = 'none';
+      cancelTexto.style.display = 'none';
+      updateTextoPreview();
+    }
+
+    cancelTexto.addEventListener('click', ()=> { if(confirm('Cancelar edição?')) resetTexto(); });
+
+    async function loadTextos(){
+      cardsTextos.innerHTML = '<div class="small-muted">Carregando...</div>';
+      const q = query(collection(db,'textos'), orderBy('criadoEm','desc'));
+      const snap = await getDocs(q);
+      const filtroTipo = (filtroMeta.value || '').trim();
+      const filtroAno = (filtroAnoTexto.value || '').trim();
+      const filtroTitulo = (filtroTituloTexto.value || '').trim().toLowerCase();
+      cardsTextos.innerHTML = '';
+
+      let found = 0;
+      snap.forEach(d => {
+        const t = d.data();
+        // aplica filtros
+        if(filtroTipo){
+          const tipoDoTexto = (t.meta||'').split(' • ')[0] || '';
+          if(tipoDoTexto !== filtroTipo) return;
+        }
+        if(filtroAno){
+          const yearMatch = (t.meta||'').match(/\b(\d{4})\b/);
+          if(!yearMatch || yearMatch[1] !== String(filtroAno)) return;
+        }
+        if(filtroTitulo){
+          if(!((t.titulo||'').toLowerCase().includes(filtroTitulo))) return;
+        }
+
+        found++;
+        const c = document.createElement('div');
+        c.className = 'card-item';
+        c.innerHTML = `
+          <div class="card-left">
+            <a href="texto.html?id=${d.id}" target="_blank" class="thumb"><img src="${t.imagem || ''}" onerror="this.src='';"></a>
+            <div class="meta"><strong>${t.titulo}</strong><br><span>${t.meta || ''}</span></div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-blue small" title="Editar"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-danger small" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+          </div>`;
+        const [editBtn, delBtn] = c.querySelectorAll('button');
+        editBtn.addEventListener('click', ()=> editTextoDoc(d.id, t));
+        delBtn.addEventListener('click', async ()=> { if(confirm('Excluir texto?')){ await deleteDoc(doc(db,'textos',d.id)); loadTextos(); } });
+        cardsTextos.appendChild(c);
+      });
+
+      if(found === 0) cardsTextos.innerHTML = '<div class="small-muted">Nenhum texto encontrado.</div>';
+    }
+
+    function editTextoDoc(id, t){
+      editTexto = id;
+      document.getElementById('titulo').value = t.titulo || '';
+      document.getElementById('resumo').value = t.resumo || '';
+      document.getElementById('imagem').value = t.imagem || '';
+      const tipo = (t.meta || '').split(' • ')[0] || '';
+      campoMeta.value = tipo;
+      campoNota.value = t.notaFilme || '';
+      notaGroup.style.display = tipo === 'Crítica de Filme' ? 'block' : 'none';
+      quill.root.innerHTML = t.conteudo || '';
+      salvarTexto.style.display = 'none';
+      salvarTextoAlt.style.display = 'inline-flex';
+      cancelTexto.style.display = 'inline-flex';
+      updateTextoPreview();
+    }
+
+    salvarTextoAlt.addEventListener('click', async ()=>{
+      if(!editTexto) return;
+      const titulo = document.getElementById('titulo').value.trim();
+      if(!titulo) return alert('Preencha o título');
+      const resumo = document.getElementById('resumo').value.trim();
+      const tipo = campoMeta.value || '';
+      if(!tipo) return alert('Escolha o tipo do texto');
+      const nota = campoNota.value || '';
+      const imagem = (imagemInput.value || '').trim();
+      const meta = `${tipo} • ${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}`;
+      await updateDoc(doc(db,'textos',editTexto),{titulo,resumo,imagem,conteudo:quill.root.innerHTML,meta,notaFilme:nota||null});
+      alert('✅ Texto atualizado!');
+      resetTexto();
+      loadTextos();
+    });
+
+    // filtros dinâmicos textoss (real-time) + pesquisa por botão / enter
+    [filtroMeta, filtroAnoTexto].forEach(el => el.addEventListener('change', ()=> loadTextos()));
+    filtroTituloTexto.addEventListener('input', ()=> loadTextos());
+    btnPesquisaTexto.addEventListener('click', ()=> loadTextos());
+    filtroTituloTexto.addEventListener('keydown', (e)=> { if(e.key === 'Enter'){ e.preventDefault(); loadTextos(); }});
+    btnLimparTexto.addEventListener('click', ()=> { filtroMeta.value=''; filtroAnoTexto.value=''; filtroTituloTexto.value=''; loadTextos(); });
+
+    /* --------------------- FILMES --------------------- */
+    const posterInput = document.getElementById('filme-poster');
+    const frame1Input = document.getElementById('filme-frame1');
+    const frame2Input = document.getElementById('filme-frame2');
+
+// Conversão automática de link do YouTube em embed
+const videoInput = document.getElementById('filme-video');
+videoInput.addEventListener('input', () => {
+  let url = videoInput.value.trim();
+
+  // detecta formato youtube normal
+  const normalMatch = url.match(/v=([a-zA-Z0-9_-]{11})/);
+  // detecta formato encurtado (youtu.be)
+  const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+
+  if (normalMatch || shortMatch) {
+    const id = (normalMatch ? normalMatch[1] : shortMatch[1]);
+    const embedUrl = `https://www.youtube.com/embed/${id}`;
+    videoInput.value = embedUrl;
+  }
+});
+
+
+    const posterPrev = document.getElementById('posterPreview');
+    const frame1Prev = document.getElementById('frame1Preview');
+    const frame2Prev = document.getElementById('frame2Preview');
+
+    function setPreview(elContainer, url, defaultHtml){
+      if(url && url.trim()){
+        elContainer.innerHTML = `<img src="${url.trim()}" alt="preview" style="width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="this.style.display='none'">`;
+      } else {
+        elContainer.innerHTML = defaultHtml;
+      }
+    }
+
+    posterInput.addEventListener('input', ()=> setPreview(posterPrev, posterInput.value, `<div style="padding:18px;color:var(--muted)" class="preview-placeholder"><i class="fa-solid fa-image"></i><div style="font-size:12px;margin-top:8px">Poster</div></div>`));
+    frame1Input.addEventListener('input', ()=> setPreview(frame1Prev, frame1Input.value, `<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 1</div>`));
+    frame2Input.addEventListener('input', ()=> setPreview(frame2Prev, frame2Input.value, `<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 2</div>`));
+
+    // filmes controls
+    const publicar = document.getElementById('publicar-filme');
+    const salvarAlt = document.getElementById('salvar-alteracoes');
+    const cancelFilm = document.getElementById('cancel-edit');
+    const cardsFilmes = document.getElementById('cards-filmes');
+
+    // filtros filmes
+    const filtroGenero = document.getElementById('filtro-genero');
+    const filtroAnoFilme = document.getElementById('filtro-ano-filme');
+    const filtroTituloFilme = document.getElementById('filtro-titulo-filme');
+    const btnPesquisaFilme = document.getElementById('btnPesquisaFilme');
+    const btnLimparFilme = document.getElementById('limpar-filtros-filme');
+
+    let editFilme = null;
+
+    publicar.addEventListener('click', async ()=>{
+      const titulo = document.getElementById('filme-titulo').value.trim();
+      if(!titulo) return alert('Preencha o título do filme');
+      const sinopse = document.getElementById('filme-sinopse').value.trim();
+      const oquefiz = document.getElementById('filme-oquefiz').value.trim();
+      const ano = Number(document.getElementById('filme-ano').value) || null;
+      const genero = document.getElementById('filme-genero').value || '';
+      const duracao = document.getElementById('filme-duracao').value || '';
+      const cor = document.getElementById('filme-cor').value || '';
+      const poster = (posterInput.value || '').trim();
+      const frame1 = (frame1Input.value || '').trim() || null;
+      const frame2 = (frame2Input.value || '').trim() || null;
+      const video = (document.getElementById('filme-video').value || '').trim();
+      const slug = (document.getElementById('filme-slug').value || '').trim();
+      await addDoc(collection(db,'filmes'),{titulo,sinopse,oquefiz,ano,genero,duracao,cor,poster,frame1,frame2,video,slug, criadoEm:serverTimestamp()});
+      alert('🎬 Filme publicado!');
+      resetFilme();
+      loadFilmes();
+    });
+
+    function resetFilme(){
+      editFilme = null;
+      document.querySelectorAll('#filme-titulo,#filme-sinopse,#filme-oquefiz,#filme-ano,#filme-duracao,#filme-poster,#filme-frame1,#filme-frame2,#filme-video,#filme-slug').forEach(i=>i.value='');
+      document.getElementById('filme-genero').value = '';
+      document.getElementById('filme-cor').value = '';
+      setPreview(posterPrev,'',`<div style="padding:18px;color:var(--muted)" class="preview-placeholder"><i class="fa-solid fa-image"></i><div style="font-size:12px;margin-top:8px">Poster</div></div>`);
+      setPreview(frame1Prev,'',`<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 1</div>`);
+      setPreview(frame2Prev,'',`<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 2</div>`);
+      publicar.style.display = 'inline-flex';
+      salvarAlt.style.display = 'none';
+      cancelFilm.style.display = 'none';
+    }
+
+    cancelFilm.addEventListener('click', ()=> { if(confirm('Cancelar edição?')) resetFilme(); });
+
+    async function loadFilmes(){
+      cardsFilmes.innerHTML = '<div class="small-muted">Carregando...</div>';
+      const q = query(collection(db,'filmes'), orderBy('ano','desc'));
+      const snap = await getDocs(q);
+      const filtroGen = (filtroGenero.value || '').trim();
+      const filtroAno = (filtroAnoFilme.value || '').trim();
+      const filtroTitulo = (filtroTituloFilme.value || '').trim().toLowerCase();
+      cardsFilmes.innerHTML = '';
+
+      let found = 0;
+      snap.forEach(d => {
+        const f = d.data();
+        if(filtroGen && (f.genero || '') !== filtroGen) return;
+        if(filtroAno && String(f.ano || '') !== String(filtroAno)) return;
+        if(filtroTitulo && !((f.titulo||'').toLowerCase().includes(filtroTitulo))) return;
+
+        found++;
+        const c = document.createElement('div');
+        c.className = 'card-item';
+        c.innerHTML = `
+          <div class="card-left">
+            <a href="filme.html?slug=${encodeURIComponent(f.slug || (f.titulo||'').toLowerCase().replaceAll(" ","-"))}" target="_blank" class="thumb"><img src="${f.poster || ''}" onerror="this.src='';"></a>
+            <div class="meta"><strong>${f.titulo}</strong><br><span>${f.ano || ''} • ${f.genero || ''} • ${f.duracao || ''}</span></div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-blue small" title="Editar"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-danger small" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+          </div>`;
+        const [editBtn, delBtn] = c.querySelectorAll('button');
+        editBtn.addEventListener('click', ()=> editFilmeDoc(d.id, f));
+        delBtn.addEventListener('click', async ()=> { if(confirm('Excluir filme?')){ await deleteDoc(doc(db,'filmes',d.id)); loadFilmes(); } });
+        cardsFilmes.appendChild(c);
+      });
+
+      if(found === 0) cardsFilmes.innerHTML = '<div class="small-muted">Nenhum filme encontrado.</div>';
+    }
+
+    function editFilmeDoc(id, f){
+      editFilme = id;
+      document.getElementById('filme-titulo').value = f.titulo || '';
+      document.getElementById('filme-sinopse').value = f.sinopse || '';
+      document.getElementById('filme-oquefiz').value = f.oquefiz || '';
+      document.getElementById('filme-ano').value = f.ano || '';
+      document.getElementById('filme-genero').value = f.genero || '';
+      document.getElementById('filme-duracao').value = f.duracao || '';
+      document.getElementById('filme-cor').value = f.cor || '';
+      posterInput.value = f.poster || '';
+      frame1Input.value = f.frame1 || '';
+      frame2Input.value = f.frame2 || '';
+      document.getElementById('filme-video').value = f.video || '';
+      document.getElementById('filme-slug').value = f.slug || '';
+      setPreview(posterPrev, f.poster, `<div style="padding:18px;color:var(--muted)" class="preview-placeholder"><i class="fa-solid fa-image"></i><div style="font-size:12px;margin-top:8px">Poster</div></div>`);
+      setPreview(frame1Prev, f.frame1, `<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 1</div>`);
+      setPreview(frame2Prev, f.frame2, `<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 2</div>`);
+      publicar.style.display = 'none';
+      salvarAlt.style.display = 'inline-flex';
+      cancelFilm.style.display = 'inline-flex';
+    }
+
+    salvarAlt.addEventListener('click', async ()=>{
+      if(!editFilme) return;
+      await updateDoc(doc(db,'filmes',editFilme),{
+        titulo: document.getElementById('filme-titulo').value,
+        sinopse: document.getElementById('filme-sinopse').value,
+        oquefiz: document.getElementById('filme-oquefiz').value,
+        ano: Number(document.getElementById('filme-ano').value) || null,
+        genero: document.getElementById('filme-genero').value,
+        duracao: document.getElementById('filme-duracao').value,
+        cor: document.getElementById('filme-cor').value,
+        poster: (posterInput.value || '').trim(),
+        frame1: (frame1Input.value || '').trim() || null,
+        frame2: (frame2Input.value || '').trim() || null,
+        video: (document.getElementById('filme-video').value || '').trim(),
+        slug: (document.getElementById('filme-slug').value || '').trim()
+      });
+      alert('🎬 Filme atualizado!');
+      resetFilme();
+      loadFilmes();
+    });
+
+    // filtros dinâmicos filmes (real-time) + pesquisa por botão / enter
+    [filtroGenero, filtroAnoFilme].forEach(el => el.addEventListener('change', ()=> loadFilmes()));
+    filtroTituloFilme.addEventListener('input', ()=> loadFilmes());
+    btnPesquisaFilme.addEventListener('click', ()=> loadFilmes());
+    filtroTituloFilme.addEventListener('keydown', (e)=> { if(e.key === 'Enter'){ e.preventDefault(); loadFilmes(); }});
+    btnLimparFilme.addEventListener('click', ()=> { filtroGenero.value=''; filtroAnoFilme.value=''; filtroTituloFilme.value=''; loadFilmes(); });
+
+    // inicializa previews default
+    setPreview(posterPrev,'',`<div style="padding:18px;color:var(--muted)" class="preview-placeholder"><i class="fa-solid fa-image"></i><div style="font-size:12px;margin-top:8px">Poster</div></div>`);
+    setPreview(frame1Prev,'',`<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 1</div>`);
+    setPreview(frame2Prev,'',`<div style="padding:10px;color:var(--muted);font-size:12px" class="preview-placeholder">Frame 2</div>`);
+
+// showTab('textosTab');   <-- comente ou delete essa linha
+
+
   </script>
 </body>
 </html>
